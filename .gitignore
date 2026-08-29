@@ -1,0 +1,14 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# Runtime / generated
+*.log
+*.bak
+.lgd-nfy*
+
+# OS
+.DS_Store
