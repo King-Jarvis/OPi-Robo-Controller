@@ -12,3 +12,6 @@ venv/
 
 # OS
 .DS_Store
+
+# Large media — kept on the NAS, out of git
+Videos/

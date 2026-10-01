@@ -1,0 +1,52 @@
+{
+  "_about": "RoboArm on the Orange Pi Zero 2W. Pins, gearing and link lengths carried over from roboarm_V4.py. Zero pose: arm straight up, tool pointing up (+Z). World frame: origin on the base plate under J1, +X forward, +Z up.",
+  "_verify": "NOT YET CHECKED ON THE ARM: (1) L3 = 26 mm is modelled as an offset at right angles to the forearm, toward +X at the zero pose — measure it. (2) Which end of travel each switch is at (J1/J5 assumed max, the rest min). (3) invert_dir for every joint: jog +, the angle must increase in the direction the DH says. See roboarm_v5/README.md, 'Bench checks'.",
+  "name": "RoboArm OPi",
+
+  "kinematics": {
+    "type": "dh",
+    "convention": "standard",
+    "dh": [
+      { "_j": "J1 base yaw",      "a": 0,     "alpha": -90, "d": 136,    "theta_offset": 0   },
+      { "_j": "J2 shoulder",      "a": 250,   "alpha": 0,   "d": 0,      "theta_offset": -90 },
+      { "_j": "J3 elbow (L3)",    "a": 26,    "alpha": 90,  "d": 0,      "theta_offset": 90  },
+      { "_j": "J4 forearm roll",  "a": 0,     "alpha": -90, "d": 235.25, "theta_offset": 0   },
+      { "_j": "J5 wrist pitch",   "a": 0,     "alpha": 90,  "d": 0,      "theta_offset": 0   },
+      { "_j": "J6 flange roll L5","a": 0,     "alpha": 0,   "d": 11.5,   "theta_offset": 0   }
+    ]
+  },
+
+  "tool": { "_note": "flange to tool point (V4 'TCP')", "xyz": [0, 0, 7.5], "rpy_deg": [0, 0, 0] },
+
+  "joints": [
+    { "name": "J1", "step_pin": 226, "dir_pin": 227, "limit_pin": 260,
+      "steps_per_deg": 61.111, "max_freq": 3000, "invert_dir": false,
+      "limits_deg": [-175, 175],
+      "home": { "switch": "max", "datum_deg": 175, "park_deg": 0 } },
+    { "name": "J2", "step_pin": 228, "dir_pin": 229, "limit_pin": 261,
+      "steps_per_deg": 35.455, "max_freq": 4000, "invert_dir": false,
+      "limits_deg": [-75, 75],
+      "home": { "switch": "min", "datum_deg": -75, "park_deg": 0 } },
+    { "name": "J3", "step_pin": 230, "dir_pin": 231, "limit_pin": 262,
+      "steps_per_deg": 13.333, "max_freq": 5000, "invert_dir": false,
+      "limits_deg": [0, 140],
+      "home": { "switch": "min", "datum_deg": 0, "park_deg": 70 } },
+    { "name": "J4", "step_pin": 232, "dir_pin": 233, "limit_pin": 263,
+      "steps_per_deg": 22.222, "max_freq": 4000, "invert_dir": false,
+      "limits_deg": [-150, 150],
+      "home": { "switch": "min", "datum_deg": -150, "park_deg": 0 } },
+    { "name": "J5", "step_pin": 256, "dir_pin": 257, "limit_pin": 264,
+      "steps_per_deg": 4.444, "max_freq": 8000, "invert_dir": false,
+      "limits_deg": [-75, 75],
+      "home": { "switch": "max", "datum_deg": 75, "park_deg": 0 } },
+    { "name": "J6", "step_pin": 258, "dir_pin": 259, "limit_pin": 265,
+      "steps_per_deg": 2.222, "max_freq": 8000, "invert_dir": false,
+      "limits_deg": [-180, 180],
+      "home": { "_note": "no switch fitted: zeroed where it stands", "switch": null, "datum_deg": 0, "park_deg": 0 } }
+  ],
+
+  "board": { "gpiochip": 0, "estop_pin": 266, "fan_pin": 267, "fan_pwm_freq": 1000,
+             "limit_triggered": 1, "estop_triggered": 1 },
+
+  "ik": { "pos_tol_mm": 0.5, "ori_tol_deg": 0.5 }
+}

@@ -1,0 +1,34 @@
+{
+  "_about": "Example: a small 4-axis desktop arm (base yaw, shoulder, elbow, wrist pitch). Proves V5 has no fixed joint count. IK runs in position mode for an arm this size. Pin numbers are placeholders.",
+  "name": "Example 4-DOF",
+
+  "kinematics": {
+    "type": "dh",
+    "convention": "standard",
+    "dh": [
+      { "_j": "base yaw",    "a": 0,   "alpha": -90, "d": 80, "theta_offset": 0   },
+      { "_j": "shoulder",    "a": 120, "alpha": 0,   "d": 0,  "theta_offset": -90 },
+      { "_j": "elbow",       "a": 110, "alpha": 0,   "d": 0,  "theta_offset": 0   },
+      { "_j": "wrist pitch", "a": 45,  "alpha": 0,   "d": 0,  "theta_offset": 0   }
+    ]
+  },
+
+  "tool": { "xyz": [0, 0, 0], "rpy_deg": [0, 0, 0] },
+
+  "joints": [
+    { "name": "Base",     "step_pin": 226, "dir_pin": 227, "limit_pin": 260,
+      "steps_per_deg": 17.778, "max_freq": 2000, "limits_deg": [-135, 135],
+      "home": { "switch": "min" } },
+    { "name": "Shoulder", "step_pin": 228, "dir_pin": 229, "limit_pin": 261,
+      "steps_per_deg": 17.778, "max_freq": 2000, "limits_deg": [-90, 60],
+      "home": { "switch": "min", "park_deg": 0 } },
+    { "name": "Elbow",    "step_pin": 230, "dir_pin": 231, "limit_pin": 262,
+      "steps_per_deg": 17.778, "max_freq": 2000, "limits_deg": [0, 150],
+      "home": { "switch": "min", "park_deg": 90 } },
+    { "name": "Wrist",    "step_pin": 232, "dir_pin": 233, "limit_pin": 263,
+      "steps_per_deg": 8.889, "max_freq": 3000, "limits_deg": [-100, 100],
+      "home": { "switch": "max", "park_deg": 0 } }
+  ],
+
+  "board": { "gpiochip": 0, "estop_pin": 266, "fan_pin": 267 }
+}
